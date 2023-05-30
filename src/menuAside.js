@@ -81,10 +81,10 @@ export default [
       {
         label: "User",
         icon: mdiAccount,
-        menu: [{ to: "/profile", label: "Users show", icon: mdiEye }],
-      },
-      {
-        label: "Item Two",
+        menu: [
+          { to: "/user-list", label: "Users show", icon: mdiEye },
+          { to: "/dashboard", label: "Add User", icon: mdiEye },
+        ],
       },
     ],
   },

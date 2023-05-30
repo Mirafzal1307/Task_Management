@@ -69,6 +69,14 @@ const routes = [
     name: "login",
     component: () => import("@/views/LoginView.vue"),
   },
+  {
+    meta: {
+      title: "UserList",
+    },
+    path: "/user-list",
+    name: "user-list",
+    component: () => import("@/pages/users/index.vue"),
+  },
   // {
   //   meta: {
   //     title: "Error",
