@@ -5,29 +5,24 @@ export const useUserStore = defineStore("user", {
   state: () => ({
     isLoggingOut: false,
     loading: false,
-    // user: JSON.parse(localStorage.getItem("user")),
+    user: JSON.parse(localStorage.getItem("user")),
     users: [],
     totalUsers: 0,
     currentPage: 1,
     userID: 0,
-
     currentUser: {
       role: 0,
       branch_id: 0,
       name: "",
       email: "",
-
       // password: '',
       new_password: "",
       new_password_confirmation: "",
     },
-
     userRoles: [],
-
     isCreatingUser: false,
     isUpdatingUser: false,
     isUserDeleting: false,
-
     selectedUser: null,
   }),
 
@@ -39,10 +34,9 @@ export const useUserStore = defineStore("user", {
         // eslint-disable-next-line prettier/prettier, no-debugger
         // await getCookie()
 
-        const { data } = await AuthService.login(userCredentials);
-
+        const data = await AuthService.login(userCredentials);
         this.user = data;
-        // localStorage.setItem("user", JSON.stringify(data));
+        localStorage.setItem("user", JSON.stringify(data));
 
         return data;
       } catch (error) {

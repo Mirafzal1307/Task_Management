@@ -1,6 +1,6 @@
 <script setup>
-import { computed, ref } from "vue";
-import { useMainStore } from "@/stores/main";
+import { ref } from "vue";
+// import { useMainStore } from "@/stores/main";
 import { mdiEye, mdiTrashCan } from "@mdi/js";
 import CardBoxModal from "@/components/CardBoxModal.vue";
 import TableCheckboxCell from "@/components/TableCheckboxCell.vue";
@@ -11,42 +11,23 @@ import UserAvatar from "@/components/UserAvatar.vue";
 
 defineProps({
   checkable: Boolean,
+  header: {
+    type: Array,
+    required: true,
+  },
+  body: {
+    type: Array,
+    required: true,
+  },
 });
-
-const mainStore = useMainStore();
-
-const items = computed(() => mainStore.clients);
 
 const isModalActive = ref(false);
 
 const isModalDangerActive = ref(false);
 
-const perPage = ref(5);
-
 const currentPage = ref(0);
 
 const checkedRows = ref([]);
-
-const itemsPaginated = computed(() =>
-  items.value.slice(
-    perPage.value * currentPage.value,
-    perPage.value * (currentPage.value + 1)
-  )
-);
-
-const numPages = computed(() => Math.ceil(items.value.length / perPage.value));
-
-const currentPageHuman = computed(() => currentPage.value + 1);
-
-const pagesList = computed(() => {
-  const pagesList = [];
-
-  for (let i = 0; i < numPages.value; i++) {
-    pagesList.push(i);
-  }
-
-  return pagesList;
-});
 
 const remove = (arr, cb) => {
   const newArr = [];
@@ -73,6 +54,7 @@ const checked = (isChecked, client) => {
 </script>
 
 <template>
+  {{ header }}
   <CardBoxModal v-model="isModalActive" title="Sample modal">
     <p>Lorem ipsum dolor sit amet <b>adipiscing elit</b></p>
     <p>This is sample modal</p>
@@ -86,6 +68,7 @@ const checked = (isChecked, client) => {
   >
     <p>Lorem ipsum dolor sit amet <b>adipiscing elit</b></p>
     <p>This is sample modal</p>
+    {{ header }}
   </CardBoxModal>
 
   <div v-if="checkedRows.length" class="p-3 bg-gray-100/50 dark:bg-slate-800">
@@ -99,21 +82,15 @@ const checked = (isChecked, client) => {
   </div>
 
   <table>
-    <thead>
+    <thead v-for="(item, index) in header" :key="index">
       <tr>
-        <th v-if="checkable" />
-        <th />
-        <th>Name</th>
-        <th>Company</th>
-        <th>City</th>
-        <th>Progress</th>
-        <th>Created</th>
-        <th />
+        <th>{{ item?.title }}</th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="client in itemsPaginated" :key="client.id">
-        <TableCheckboxCell
+      <tr v-for="(item, index) in header" :key="index">
+        <th>{{ item?.title }}</th>
+        <!-- <TableCheckboxCell
           v-if="checkable"
           @checked="checked($event, client)"
         />
@@ -163,7 +140,7 @@ const checked = (isChecked, client) => {
               @click="isModalDangerActive = true"
             />
           </BaseButtons>
-        </td>
+        </td> -->
       </tr>
     </tbody>
   </table>
